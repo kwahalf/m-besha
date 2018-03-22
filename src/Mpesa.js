@@ -3,28 +3,24 @@ import request from 'request';
 import crypto from 'crypto';
 import constants from 'constants';
 import fs from 'fs';
+import routes from './routes'
+
 
 //Object mpesa used to encapsulate all M-Pesa API for easier calling of each method e.g (mpesa.B2C(<arguments>))
 
 class mpesa {
     constructor(credential, config){
-        this.consumer_key = credential.consumer_key
-        this.consumer_secret = credential.consumer_secret
+        this.customer_key = credential.customer_key
+        this.customer_secret = credential.customer_secret
         this.certificate = credential.certificatePath
         this.securityCredential =credential.securityCredential
         this.config = config
-        this.productionUri = "https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
-        this.developmentUri = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
-
     }
 
     O_Auth = ()=> {
-        const consumer_key = 'exo0yMZEsVgCsl8bHk9r7PP8GyFMttsG';
-        const consumer_secret = 'iJJi1cd6HofXAUBQ';
-        const auth = "Basic " + new Buffer(consumer_key + ":" + consumer_secret).toString("base64");
-
+        const auth = "Basic " + new Buffer(this.consumer_key + ":" + this.consumer_secret).toString("base64");
         let options = {
-            uri: this.config === 'development'?this.developmentUri:this.productionUri,
+            uri: this.config === 'development'?routes.auth.development:routes.auth.production,
             headers: {
                 "Authorization": auth
             },
@@ -61,8 +57,7 @@ class mpesa {
             let accessToken = response.access_token;
             let options = {
                 method: 'POST',
-                //uri: 'https://api.safaricom.co.ke/mpesa/b2c/v1/paymentrequest',
-                uri: 'https://sandbox.safaricom.co.ke/mpesa/b2c/v1/paymentrequest',
+                uri: this.config === 'development'?routes.B2C.development:routes.B2C.production,
                 headers: {
                     "Authorization": "Bearer " + accessToken,
                     "Content-Type": "application/json"
@@ -97,8 +92,7 @@ class mpesa {
             let accessToken = response.access_token;
             let options = {
                 method: 'POST',
-                //uri: 'https://api.safaricom.co.ke/mpesa/b2b/v1/paymentrequest',
-                uri: 'https://sandbox.safaricom.co.ke/mpesa/b2b/v1/paymentrequest',
+                uri: this.config === 'development'?routes.B2B.development:routes.B2B.production,
                 headers: {
                     "Authorization": 'Bearer ' + accessToken,
                     "Content-Type": "application/json"
@@ -136,8 +130,7 @@ class mpesa {
             let accessToken = response.access_token;
             let options = {
                 method: 'POST',
-                //uri: 'https://api.safaricom.co.ke/mpesa/c2b/v1/registerurl',
-                uri: 'https://sandbox.safaricom.co.ke/mpesa/c2b/v1/registerurl',
+                uri: this.config === 'development'?routes.C2B_Register.development:routes.C2B_Register.production,
                 headers: {
                     "Authorization": 'Bearer ' + accessToken,
                     "Content-Type": "application/json"
@@ -168,8 +161,7 @@ class mpesa {
             let token = accessToken;
             let options = {
                 method: 'POST',
-                //uri: 'https://api.safaricom.co.ke/mpesa/c2b/v1/simulate',
-                uri: 'https://sandbox.safaricom.co.ke/mpesa/c2b/v1/simulate',
+                uri: this.config === 'development'?routes.C2B_Simulate.development:routes.C2B_Simulate.production,
                 headers: {
                     "Authorization": 'Bearer ' + accessToken,
                     "Content-Type": "application/json"
@@ -204,7 +196,7 @@ class mpesa {
             let options = {
                 method: 'POST',
                 //uri: 'https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest',
-                uri: 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest',
+                uri: this.config === 'development'?routes.Lipa_Na_Mpesa_Online.development:routes.Lipa_Na_Mpesa_Online.production,
                 headers: {
                     "Authorization": 'Bearer ' + accessToken,
                     "Content-Type": "application/json"
@@ -244,8 +236,7 @@ class mpesa {
             let password = new Buffer(short_code + pass_key + time_stamp).toString("base64");
             let options = {
                 method: 'POST',
-                //uri: 'https://api.safaricom.co.ke/mpesa/stkpushquery/v1/query',
-                uri: 'https://sandbox.safaricom.co.ke/mpesa/stkpushquery/v1/query',
+                uri: this.config === 'development'?routes.Lipa_Na_Mpesa_Query.development:routes.Lipa_Na_Mpesa_Query.production,
                 headers: {
                     "Authorization": 'Bearer ' + accessToken,
                     "Content-Type": "application/json"
@@ -275,8 +266,7 @@ class mpesa {
             let accessToken = response.access_token;
             let options = {
                 method: 'POST',
-                //uri: 'https://api.safaricom.co.ke/mpesa/reversal/v1/request',
-                uri: 'https://sandbox.safaricom.co.ke/mpesa/reversal/v1/request',
+                uri: this.config === 'development'?routes.Reversal.development:routes.Reversal.production,
                 headers: {
                     "Authorization": 'Bearer ' + accessToken,
                     "Content-Type": "application/json"
@@ -313,8 +303,7 @@ class mpesa {
             let accessToken = response.access_token;
             let options = {
                 method: 'POST',
-                //uri: 'https://api.safaricom.co.ke/mpesa/reversal/v1/request',
-                uri: 'https://sandbox.safaricom.co.ke/mpesa/transactionstatus/v1/query',
+                uri: this.config === 'development'?routes.Transaction_Status.development:routes.Transaction_Status.production,
                 headers: {
                     "Authorization": 'Bearer ' + accessToken,
                     "Content-Type": "application/json"
@@ -351,8 +340,7 @@ class mpesa {
             let accessToken = response.access_token;
             let options = {
                 method: 'POST',
-                //uri: 'https://api.safaricom.co.ke/mpesa/accountbalance/v1/query',
-                uri: 'https://sandbox.safaricom.co.ke/mpesa/accountbalance/v1/query',
+                uri: this.config === 'development'?routes.Account_Balance.development:routes.Account_Balance.production,
                 headers: {
                     "Authorization": 'Bearer ' + accessToken,
                     "Content-Type": "application/json"
