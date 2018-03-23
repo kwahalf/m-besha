@@ -5,15 +5,13 @@ import constants from 'constants';
 import fs from 'fs';
 import routes from './routes'
 
-
-//Object mpesa used to encapsulate all M-Pesa API for easier calling of each method e.g (mpesa.B2C(<arguments>))
-
 class mpesa {
     constructor(credential, config){
-        this.customer_key = credential.customer_key
-        this.customer_secret = credential.customer_secret
-        this.certificate = credential.certificatePath
-        this.securityCredential =credential.securityCredential
+        const {customer_key, customer_secret, securityCredential, certificatePath } = credential
+        this.customer_key = customer_key
+        this.customer_secret = customer_secret
+        this.certificate = certificatePath
+        this.securityCredential = securityCredential
         this.config = config
     }
 
