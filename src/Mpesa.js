@@ -1,18 +1,17 @@
 import rp from'request-promise';
-import request from 'request';
 import crypto from 'crypto';
 import constants from 'constants';
 import fs from 'fs';
-import routes from './routes'
+import routes from './routes';
 
 class mpesa {
     constructor(credential, config){
-        const {customer_key, customer_secret, securityCredential, certificatePath } = credential
-        this.customer_key = customer_key
-        this.customer_secret = customer_secret
-        this.certificate = certificatePath
-        this.securityCredential = securityCredential
-        this.config = config
+        const {customer_key, customer_secret, securityCredential, certificatePath } = credential;
+        this.customer_key = customer_key;
+        this.customer_secret = customer_secret;
+        this.certificate = certificatePath;
+        this.securityCredential = securityCredential;
+        this.config = config;
     }
 
     O_Auth = ()=> {
@@ -30,7 +29,7 @@ class mpesa {
     security = ()=>{
         //sandbox value for security credential = Security Credential (Shortcode 1)
         //production value for security credential = api initiator password
-        let bufferToEncrypt = new Buffer(this.config == 'development'?"Safaricom343!":this.certificate);
+        let bufferToEncrypt = new Buffer(this.config == 'development'?"Safaricom343!":this.securityCredential);
         //read the sandbox/production certificate data
         // PATH - e.g "../keys/sandbox-cert.cer"
         let data = fs.readFileSync(this.certificate||"../keys/sandbox-cert");
@@ -155,8 +154,6 @@ class mpesa {
     C2B_Simulate = (shortCode, commandId, amount, msisdn, billRefNumber) => {
         this.O_Auth().then(response => {
             let accessToken = response.access_token;
-            let security_credential = this.security();
-            let token = accessToken;
             let options = {
                 method: 'POST',
                 uri: this.config === 'development'?routes.C2B_Simulate.development:routes.C2B_Simulate.production,
@@ -366,6 +363,6 @@ class mpesa {
         }).catch(error => console.log(error));
     }
     
-};
+}
 
-export default mpesa
+export default mpesa;

@@ -1,4 +1,4 @@
-import routes from '../routes'
+import routes from '../routes';
 
 describe('Routes', () => {
   it('auth routes should match the mpesa auth routes', () => {
