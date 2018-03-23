@@ -1,13 +1,13 @@
-import Mpesa from '../Mpesa'
+import Mpesa from '../Mpesa';
 
 const credetials = {
   customer_key: 'exampleCustomerKey',
   customer_secret: 'exampleCustomersecret',
   securityCredential: 'Safaricom343!'
-}
+};
 
 describe('Mpesa', () => {
-  const mpesa = new Mpesa(credetials, 'development')
+  const mpesa = new Mpesa(credetials, 'development');
   it('should contain config details', () => {
     expect(mpesa.config).toBe('development');
   });
