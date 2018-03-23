@@ -29,7 +29,7 @@ const Routes = {
     },
     Reversal: {
         production: "https://api.safaricom.co.ke/mpesa/reversal/v1/request",
-        development: "https://sandbox.safaricom.co.ke/mpesa/reversal/v1/request'"
+        development: "https://sandbox.safaricom.co.ke/mpesa/reversal/v1/request"
     },
     Transaction_Status: {
         production: "https://api.safaricom.co.ke/mpesa/transactionstatus/v1/query",
