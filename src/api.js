@@ -15,7 +15,7 @@ const api = {
   },
   mpesaApi: (consumerKey, consumerSecret, config) => {
     return api.auth0(consumerKey, consumerSecret, config)
-      .get(routes.auth).then(res =>{return res.data.data.access_token;})
+      .get(routes.auth).then(res =>{return res.data.access_token;})
       .then(accessToken => {
         const instance =  axios.create({
           baseURL: routes.baseUrl.development,

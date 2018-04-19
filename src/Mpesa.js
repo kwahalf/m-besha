@@ -1,3 +1,4 @@
+import "babel-polyfill";
 import crypto from 'crypto';
 import constants from 'constants';
 import fs from 'fs';
