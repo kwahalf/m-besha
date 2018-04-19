@@ -104,10 +104,8 @@ export const AccountBalancedata = {
 }
 
 mockAdapter.onGet('https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials').reply(200, {
-       data: {
          access_token: "sampleAcessToken",
          expires_in: "3599",
-       }
      });
 
 mockAdapter.onPost('https://sandbox.safaricom.co.ke/mpesa/b2c/v1/paymentrequest').reply(200, {

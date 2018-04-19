@@ -20,9 +20,7 @@ const data = {
 };
 
 mockAdapter.onGet('https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials').reply(200, {
-  data: {
    access_token: "sampleAcessToken"
-  }
 });
 
 mockAdapter.onPost('https://sandbox.safaricom.co.ke/mpesa/b2c/v1/paymentrequest').reply(200, {
@@ -33,11 +31,11 @@ describe('auth0', () => {
   it('should retun a token on sucessful', async () => {
     await axios.get('https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials')
       .then((response) => {
-        expect(response.data.data.access_token).toEqual("sampleAcessToken");
+        expect(response.data.access_token).toEqual("sampleAcessToken");
     });
     await api.auth0("sample customer key", "sample secrete", "development")
         .get(routes.auth).then((res) => {
-            expect(res.data.data.access_token).toEqual("sampleAcessToken");
+            expect(res.data.access_token).toEqual("sampleAcessToken");
             expect(res.config.headers.Authorization).toEqual("Basic c2FtcGxlIGN1c3RvbWVyIGtleTpzYW1wbGUgc2VjcmV0ZQ==");
     });
   });
