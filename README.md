@@ -69,14 +69,14 @@ const data = {
     TransactionType: 'CustomerPayBillOnline',
     Amount: '1',
     PartyA: 'put your phone no here',
-    PartyB: 'put your phone no here',
+    PartyB: '174379',
+    PhoneNumber:'put your phone no here',
     CallBackURL: 'https://callbacks.com',
-    PhoneNumber:09090998,
     AccountReference: 'test',
     TransactionDesc: 'test'
 }
 
-const {BusinessShortCode, Password, Timestamp, TransactionType, Amount, PartyA, PartyB, CallBackURL, PhoneNumber, AccountReference, TransactionDesc } = data
+const { BusinessShortCode, Password, Timestamp, TransactionType, Amount, PartyA, PartyB,  PhoneNumber, CallBackURL, AccountReference, TransactionDesc } = data
 
 //lets use our mpesa instace to call the LipaNaMpesaApi by passing the method call all the request paramaters
 mpesa.LipaNaMpesaOnline(BusinessShortCode, Password, Timestamp, TransactionType, Amount, PartyA, PartyB, CallBackURL, PhoneNumber, AccountReference, TransactionDesc).then((response) => console.log(response.data))
@@ -103,7 +103,7 @@ mpesa.LipaNaMpesaOnline(BusinessShortCode, Password, Timestamp, TransactionType,
      CustomerMessage: 'Success. Request accepted for processing' 
 } 
 ```
-5. This should prompts an stk requesting the person whose number was entered to provide a pin. If the pin is entered correctly, you are done. This message body will be sent to the `CallBackURL` 
+5. This should prompts an stkpush requesting the person whose number was entered to provide a pin. If the pin is entered correctly, you are done. This message body will be sent to the `CallBackURL` 
 
 ```javascript
 
